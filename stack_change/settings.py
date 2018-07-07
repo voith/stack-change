@@ -12,9 +12,17 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+ENV_FILE_PATH = os.path.join(BASE_DIR, '.env')
+if os.path.exists(ENV_FILE_PATH):
+    print('loading from .env')
+    load_dotenv(ENV_FILE_PATH)
+else:
+    print('.env not found. Loading from /etc/environment')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -130,4 +138,5 @@ STACK_EXCHANGE = {
     'CLIENT_ID': os.getenv('STACK_EXCHANGE_CLIENT_ID'),
     'OAUTH_DOMAIN': os.getenv('STACK_EXCHANGE_OAUTH_DOMAIN'),
     'APP_WEBSITE': os.getenv('STACK_EXCHANGE_APP_WEBSITE'),
+    'REDIRECT_URI': os.getenv('STACK_EXCHANGE_APP_WEBSITE'),
 }
