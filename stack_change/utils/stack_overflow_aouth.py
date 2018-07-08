@@ -46,7 +46,12 @@ class StackOverflowOauth:
     def get_user_from_code(self, code):
         access_token = self.get_access_token_from_code(code)
         account_id = self.get_account_id_from_access_token(access_token)
-        return self.get_user_from_account_id(account_id)
+        user_data = self.get_user_from_account_id(account_id)
+        return {
+            'access_token': access_token,
+            'account_id': account_id,
+            'user_data': user_data
+        }
 
     def get_access_token_from_code(self, code):
         data = {
