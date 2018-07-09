@@ -51,3 +51,5 @@ sudo apt-get -y install supervisor
 mkdir -p /root/logs
 sudo rm -f /etc/supervisor/supervisord.conf
 sudo cp -R /root/stackXchange/scripts/config/*  /etc/supervisor/conf.d/
+
+# change nginx owner
