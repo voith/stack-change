@@ -14,7 +14,7 @@ function wait_for_process(){
 wait_for_process
 wait_for_process && sudo apt-get -y update
 
-cd $HOME/$APP_NAME
+cd /root/$APP_NAME
 
 git pull origin master
 
@@ -43,4 +43,4 @@ sudo apt-get update
 sudo apt-get install python-certbot-nginx
 sudo certbot --nginx
 
-mkdir -p $HOME/logs
+mkdir -p /root/logs
