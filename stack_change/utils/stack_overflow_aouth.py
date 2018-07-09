@@ -1,6 +1,7 @@
 from urllib.parse import parse_qsl
 
 import requests
+from django.conf import settings
 from toolz.dicttoolz import dissoc
 
 from stack_change.constants import (
@@ -9,7 +10,6 @@ from stack_change.constants import (
     STACK_EXCHANGE_API_USER_ASSOCCIATION,
 )
 from stack_change.exceptions import BadStatusCode
-from stack_change.settings import STACK_EXCHANGE
 
 
 def get_request(url):
@@ -34,10 +34,10 @@ def validate_status_code(response):
 class StackOverflowOauth:
 
     def __init__(self,
-                 client_id=STACK_EXCHANGE['CLIENT_ID'],
-                 key=STACK_EXCHANGE['KEY'],
-                 secret=STACK_EXCHANGE['SECRET'],
-                 redirect_uri=STACK_EXCHANGE['REDIRECT_URI']):
+                 client_id=settings.STACK_EXCHANGE['CLIENT_ID'],
+                 key=settings.STACK_EXCHANGE['KEY'],
+                 secret=settings.STACK_EXCHANGE['SECRET'],
+                 redirect_uri=settings.STACK_EXCHANGE['REDIRECT_URI']):
         self.client_id = client_id
         self.key = key
         self.secret = secret
