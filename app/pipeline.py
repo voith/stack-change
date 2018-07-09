@@ -3,8 +3,8 @@ from functools import partial
 from toolz import merge
 
 from app.models import User, UserAssociation
-from stack_change.utils.orm import get_or_create
-from stack_change.utils.stack_overflow_aouth import StackOverflowOauth
+from stackXchange.utils.orm import get_or_create
+from stackXchange.utils.stack_overflow_aouth import StackOverflowOauth
 
 
 def save_user_profile(username):

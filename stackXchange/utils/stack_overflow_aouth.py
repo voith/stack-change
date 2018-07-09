@@ -4,13 +4,13 @@ import requests
 from django.conf import settings
 from toolz.dicttoolz import dissoc
 
-from stack_change.constants import (
+from stackXchange.constants import (
     STACK_EXCHANGE_ACCESS_TOKEN_URI,
     STACK_EXCHANGE_API_USER_ACESS_TOKEN,
     STACK_EXCHANGE_API_USER_ASSOCCIATION,
 )
-from stack_change.exceptions import BadStatusCode
-from stack_change.utils.functional import apply_key_map
+from stackXchange.exceptions import BadStatusCode
+from stackXchange.utils.functional import apply_key_map
 
 
 def get_request(url):
