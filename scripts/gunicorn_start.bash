@@ -12,7 +12,9 @@ DJANGO_WSGI_MODULE=stackXchange.wsgi                 # WSGI module name
 echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environment
-alias python=python3.6
+/root/stackXchange/venv/bin/activate
+
+
 cd $DJANGODIR
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
