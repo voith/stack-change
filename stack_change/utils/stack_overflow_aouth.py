@@ -10,6 +10,7 @@ from stack_change.constants import (
     STACK_EXCHANGE_API_USER_ASSOCCIATION,
 )
 from stack_change.exceptions import BadStatusCode
+from stack_change.utils.functional import apply_key_map
 
 
 def get_request(url):
@@ -83,8 +84,11 @@ class StackOverflowOauth:
     @staticmethod
     def _get_user_site_details(user_data):
         user = []
-        allowed_keys = {'user_id',  'site_url'}
+        allowed_keys = {'user_id',  'site_url', 'site_name'}
+        remapped_keys = {'user_id': 'site_user_id'}
         keys_to_dissoc = set(user_data['items'][0].keys()) - allowed_keys
         for site in user_data['items']:
-            user.append(dissoc(site, *keys_to_dissoc))
+            filtered_data = dissoc(site, *keys_to_dissoc)
+            remapped_data = apply_key_map(remapped_keys, filtered_data)
+            user.append(remapped_data)
         return user
