@@ -1,10 +1,10 @@
 #!/bin/bash
 
 NAME="stackXchange"                                  # Name of the application
-DJANGODIR=/home/ubuntu/stackXchange             # Django project directory
-SOCKFILE=/home/ubuntu/run/gunicorn.sock  # we will communicte using this unix socket
-USER=ubuntu                                        # the user to run as
-GROUP=ubuntu                                     # the group to run as
+DJANGODIR=/root/stackXchange             # Django project directory
+SOCKFILE=/root/run/gunicorn.sock  # we will communicte using this unix socket
+USER=root                                        # the user to run as
+GROUP=root                                     # the group to run as
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=stackXchange.settings             # which settings file should Django use
 DJANGO_WSGI_MODULE=stackXchange.wsgi                 # WSGI module name
