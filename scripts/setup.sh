@@ -36,3 +36,9 @@ sudo python -m pip install -r requirements.txt
 mysql -u $DB_USER --password=$DB_PASSWORD -e "create database $DB_NAME";
 
 python manage.py migrate
+
+sudo apt-get install software-properties-common
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install python-certbot-nginx
+sudo certbot --nginx
