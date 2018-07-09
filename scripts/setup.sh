@@ -28,8 +28,11 @@ sudo apt-get update
 sudo apt-get install -y python3.6
 update-alternatives --install /usr/bin/python python /usr/bin/python3.6 100
 sudo apt-get install -y build-essential libssl-dev libffi-dev python3.6-dev
+sudo apt-get install -y libmysqlclient-dev
 sudo apt install -y python3-pip
 
 sudo python -m pip install -r requirements.txt
+
+mysql -u $DB_USER --password=$DB_PASSWORD -e "create database $DB_NAME";
 
 python manage.py migrate
