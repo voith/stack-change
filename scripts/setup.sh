@@ -43,4 +43,6 @@ sudo apt-get update
 sudo apt-get install python-certbot-nginx
 sudo certbot --nginx
 
+sudo apt install -y gunicorn
+
 mkdir -p /root/logs
