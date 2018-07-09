@@ -62,13 +62,13 @@ MIDDLEWARE = [
     'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
-ROOT_URLCONF = 'stack_change.urls'
+ROOT_URLCONF = 'stackXchange.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'stack_change/templates')
+            os.path.join(BASE_DIR, 'stackXchange/templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -84,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'stack_change.wsgi.application'
+WSGI_APPLICATION = 'stackXchange.wsgi.application'
 
 
 # Database
@@ -167,7 +167,7 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
    'django.contrib.auth.backends.ModelBackend',
-   'stack_change.oauth_backend.StackoverflowOAuth2V2',
+   'stackXchange.oauth_backend.StackoverflowOAuth2V2',
 )
 
 LOGIN_URL = 'so_login'
