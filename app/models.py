@@ -12,6 +12,14 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class StackExchangeSite(models.Model):
+
+    name = models.CharField(max_length=50)
+    domain = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class UserAssociation(models.Model):
 
     user = models.ForeignKey(
@@ -23,13 +31,12 @@ class UserAssociation(models.Model):
         on_delete='CASCASE'
     )
     site_user_id = models.IntegerField()
-    site_url = models.CharField(max_length=100)
-    site_name = models.CharField(max_length=50)
+    site = models.OneToOneField(StackExchangeSite, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Tags(models.Model):
+class Tag(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -47,7 +54,8 @@ class Question(models.Model):
     )
     site_question_id = models.IntegerField(unique=True)
     site_question_url = models.CharField(max_length=500)
-    tags = models.ManyToManyField(Tags)
+    site = models.OneToOneField(StackExchangeSite, on_delete='CASCADE')
+    tags = models.ManyToManyField(Tag)
     content = models.TextField()
     asked_on = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -62,7 +70,7 @@ class Balance(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-class Transactions(models.Model):
+class Transaction(models.Model):
     STATE_CHOICES = (
         ('INITIATED', 'EXPIRED'),
         ('SUCCESSFUL', 'SUCCESSFUL'),
@@ -87,7 +95,7 @@ class UserActivity(models.Model):
 
     user = models.OneToOneField(User, on_delete='CASCADE')
     action = models.CharField(max_length=32, choices=ACTION_CHOICES)
-    transaction = models.OneToOneField(Transactions, null=True, on_delete='CASCADE')
+    transaction = models.OneToOneField(Transaction, null=True, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
