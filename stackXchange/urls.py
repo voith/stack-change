@@ -18,10 +18,14 @@ from django.contrib import admin
 from django.urls import path, re_path
 
 from . import views
+from app.views import (
+    question
+)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path('^auth/', include('rest_framework_social_oauth2.urls')),
-    re_path('^$', views.HomeView.as_view())
+    re_path('^$', views.HomeView.as_view()),
+    re_path(r'^bounty/?$', question.BountyView.as_view())
 ]
