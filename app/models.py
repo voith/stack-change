@@ -8,8 +8,8 @@ class User(AbstractUser):
 
     account_id = models.IntegerField(null=True, db_index=True)
     access_token = models.CharField(max_length=32, null=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class UserAssociation(models.Model):
@@ -25,15 +25,15 @@ class UserAssociation(models.Model):
     site_user_id = models.IntegerField()
     site_url = models.CharField(max_length=100)
     site_name = models.CharField(max_length=50)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Tags(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Question(models.Model):
@@ -50,44 +50,55 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tags)
     content = models.TextField()
     asked_on = models.DateTimeField()
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Balance(models.Model):
 
     amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
     user = models.OneToOneField(User, on_delete='CASCADE')
-    created_at = models.DateTimeField()
-    update_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Transactions(models.Model):
-    STATE_CHOICES = ('INITIATED', 'SUCCESSFUL', 'FAILED')
+    STATE_CHOICES = (
+        ('INITIATED', 'EXPIRED'),
+        ('SUCCESSFUL', 'SUCCESSFUL'),
+        ('FAILED', 'FAILED')
+    )
 
-    transaction_id = models.CharField(null=True)
+    transaction_id = models.CharField(max_length=50, null=True)
     amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
-    state = models.CharField(choices=STATE_CHOICES)
-    created_at = models.DateTimeField()
-    update_at = models.DateTimeField()
+    state = models.CharField(max_length=32, choices=STATE_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class UserActivity(models.Model):
     ACTION_CHOICES = (
-        'TOP UP',
-        'FUNDED BOUNTY',
-        'CLAIMED BOUNTY',
-        'WITHDRAW MONEY',
-        'CANCEL BOUNTY',
+        ('TOP UP', 'TOP UP'),
+        ('FUNDED BOUNTY', 'FUNDED BOUNTY'),
+        ('CLAIMED BOUNTY', 'CLAIMED BOUNTY'),
+        ('WITHDRAW MONEY', 'WITHDRAW MONEY'),
+        ('CANCEL BOUNTY', 'CANCEL BOUNTY'),
     )
 
     user = models.OneToOneField(User, on_delete='CASCADE')
     action = models.CharField(max_length=32, choices=ACTION_CHOICES)
     transaction = models.OneToOneField(Transactions, null=True, on_delete='CASCADE')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Bounty(models.Model):
-    STATE_CHOICES = ('OPEN', 'COMPLETED', 'CANCELLED', 'EXPIRED')
+    STATE_CHOICES = (
+        ('OPEN', 'OPEN'),
+        ('COMPLETED', 'COMPLETED'),
+        ('CANCELLED', 'CANCELLED'),
+        ('EXPIRED', 'EXPIRED')
+    )
 
     question = models.OneToOneField(Question, on_delete='CASCADE')
     claimed_user = models.OneToOneField(UserAssociation, null=True, on_delete='CASCADE')
@@ -96,12 +107,12 @@ class Bounty(models.Model):
     expiry_date = models.DateTimeField()
     completed_at = models.DateTimeField(null=True)
     cancelled_at = models.DateTimeField(null=True)
-    created_at = models.DateTimeField()
-    update_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Claim(models.Model):
 
     bounty = models.ManyToManyField(Bounty)
-    created_at = models.DateTimeField()
-    update_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
