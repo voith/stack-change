@@ -1,4 +1,4 @@
-from urllib.parse import parse_qsl
+from urllib.parse import parse_qsl, urlparse
 
 import requests
 from django.conf import settings
@@ -90,5 +90,8 @@ class StackOverflowOauth:
         for site in user_data['items']:
             filtered_data = dissoc(site, *keys_to_dissoc)
             remapped_data = apply_key_map(remapped_keys, filtered_data)
+            remapped_data['domain'] = urlparse(remapped_data['site_url']).netloc
+            # name here is domain name
+            remapped_data['name'] = remapped_data['domain'].split('.')[0]
             user.append(remapped_data)
         return user

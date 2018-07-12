@@ -5,6 +5,7 @@ import itertools
 from toolz import (
     compose as _compose,
 )
+from toolz.dicttoolz import dissoc
 
 
 def identity(value):
@@ -57,3 +58,10 @@ def apply_key_map(key_mappings, value):
             yield key_mappings[key], item
         else:
             yield key, item
+
+
+def split_dict_by_keys(_dict, keys):
+    other_keys = set(_dict.keys()) - set(keys)
+    dict2 = dissoc(_dict, *keys)
+    dict1 = dissoc(_dict, *other_keys)
+    return dict1, dict2
