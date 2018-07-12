@@ -12,4 +12,4 @@ class UserSerializer(ModelSerializer):
         fields = ('id', 'username', 'first_name', 'last_name', 'account_id')
 
     def to_json(self):
-        return json.dumps(self.data)
+        return json.dumps(self.data).replace('"', '\\"')
