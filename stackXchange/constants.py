@@ -13,3 +13,5 @@ STACK_EXCHANGE_API_BASE_URI = urljoin('https://api.stackexchange.com/', STACK_EX
 STACK_EXCHANGE_API_USER_ACESS_TOKEN = urljoin(STACK_EXCHANGE_API_BASE_URI, 'access-tokens/{access_token}')
 
 STACK_EXCHANGE_API_USER_ASSOCCIATION = urljoin(STACK_EXCHANGE_API_BASE_URI, 'users/{user_id}/associated')
+
+STACK_EXCHANGE_API_SITES = urljoin(STACK_EXCHANGE_API_BASE_URI, 'sites')

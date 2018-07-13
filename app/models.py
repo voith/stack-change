@@ -15,7 +15,8 @@ class User(AbstractUser):
 class StackExchangeSite(models.Model):
 
     name = models.CharField(max_length=50)
-    domain = models.CharField(max_length=100)
+    site_url = models.CharField(max_length=100)
+    api_site_parameter = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
