@@ -109,6 +109,7 @@ class BountySerializer(serializers.Serializer):
 
     def to_representation(self, instance):
         return {
+            'id': instance.id,
             'bounty_amount': instance.amount,
             'tags': map(lambda x: x.name, instance.question.tags.all()),
             'url': instance.question.site_question_url,
