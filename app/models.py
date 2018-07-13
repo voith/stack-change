@@ -32,7 +32,7 @@ class UserAssociation(models.Model):
         on_delete='CASCASE'
     )
     site_user_id = models.IntegerField()
-    site = models.OneToOneField(StackExchangeSite, on_delete='CASCADE')
+    site = models.ForeignKey(StackExchangeSite, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -55,7 +55,7 @@ class Question(models.Model):
     )
     site_question_id = models.IntegerField(unique=True)
     site_question_url = models.CharField(max_length=500)
-    site = models.OneToOneField(StackExchangeSite, on_delete='CASCADE')
+    site = models.ForeignKey(StackExchangeSite, on_delete='CASCADE')
     tags = models.ManyToManyField(Tag)
     title = models.TextField()
     asked_on = models.DateTimeField()
@@ -66,7 +66,7 @@ class Question(models.Model):
 class Balance(models.Model):
 
     amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
-    user = models.OneToOneField(User, on_delete='CASCADE')
+    user = models.ForeignKey(User, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -94,9 +94,9 @@ class UserActivity(models.Model):
         ('CANCEL BOUNTY', 'CANCEL BOUNTY'),
     )
 
-    user = models.OneToOneField(User, on_delete='CASCADE')
+    user = models.ForeignKey(User, on_delete='CASCADE')
     action = models.CharField(max_length=32, choices=ACTION_CHOICES)
-    transaction = models.OneToOneField(Transaction, null=True, on_delete='CASCADE')
+    transaction = models.ForeignKey(Transaction, null=True, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -109,8 +109,8 @@ class Bounty(models.Model):
         ('EXPIRED', 'EXPIRED')
     )
 
-    question = models.OneToOneField(Question, on_delete='CASCADE')
-    claimed_user = models.OneToOneField(UserAssociation, null=True, on_delete='CASCADE')
+    question = models.ForeignKey(Question, on_delete='CASCADE')
+    claimed_user = models.ForeignKey(UserAssociation, null=True, on_delete='CASCADE')
     amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
     state = models.CharField(max_length=32, choices=STATE_CHOICES)
     expiry_date = models.DateTimeField()
