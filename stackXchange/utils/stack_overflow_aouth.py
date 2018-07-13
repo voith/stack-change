@@ -81,15 +81,12 @@ class StackOverflowOauth:
     @staticmethod
     def _get_user_site_details(user_data):
         user = []
-        allowed_keys = {'user_id',  'site_url', 'site_name'}
+        allowed_keys = {'user_id',  'site_url'}
         remapped_keys = {'user_id': 'site_user_id'}
         keys_to_dissoc = set(user_data['items'][0].keys()) - allowed_keys
         for site in user_data['items']:
             filtered_data = dissoc(site, *keys_to_dissoc)
             remapped_data = apply_key_map(remapped_keys, filtered_data)
-            remapped_data['domain'] = urlparse(remapped_data['site_url']).netloc
-            # name here is domain name
-            # remapped_data['name'] = remapped_data['domain'].split('.')[0]
             user.append(remapped_data)
         return user
 

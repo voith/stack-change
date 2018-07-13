@@ -14,11 +14,11 @@ def save_user_profile(username):
     user = User.objects.get(username=username)
     account_id = user.account_id
     user_data = api.get_user_from_account_id(account_id)
-    site_data, user_data = split_dict_by_keys(user_data, {'domain', 'name'})
-    site = get_or_create(StackExchangeSite, site_data, {'doamin'})
+    site_data, user_data = split_dict_by_keys(user_data, {'site_url'})
+    site = StackExchangeSite.objects.get(site_url=site_data['site_url'])
     data_to_inject = {'user_id': user.id, 'site_id': site.id}
     modified_user_data = map(partial(merge, data_to_inject), user_data)
-    constraint_keys = {'site_name', 'site_user_id'}
+    constraint_keys = {'site_id', 'site_user_id'}
     for _user in modified_user_data:
         get_or_create(UserAssociation, _user, constraint_keys)
 
