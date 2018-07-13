@@ -65,3 +65,8 @@ def split_dict_by_keys(_dict, keys):
     dict2 = dissoc(_dict, *keys)
     dict1 = dissoc(_dict, *other_keys)
     return dict1, dict2
+
+
+def dict_keep_only_keys(_dict, keys):
+    other_keys = set(_dict.keys()) - set(keys)
+    return dissoc(_dict, *other_keys)

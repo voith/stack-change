@@ -1,20 +1,17 @@
 from urllib.parse import parse_qsl, urlparse
+from functools import partial
 
 import requests
 from django.conf import settings
 from toolz.dicttoolz import dissoc
 
-from stackXchange.constants import (
-    STACK_EXCHANGE_ACCESS_TOKEN_URI,
-    STACK_EXCHANGE_API_USER_ACESS_TOKEN,
-    STACK_EXCHANGE_API_USER_ASSOCCIATION,
-)
+from stackXchange import constants
 from stackXchange.exceptions import BadStatusCode
-from stackXchange.utils.functional import apply_key_map
+from stackXchange.utils.functional import apply_key_map, dict_keep_only_keys, to_list
 
 
-def get_request(url):
-    return requests.get(url)
+def get_request(url, params={}):
+    return requests.get(url, params)
 
 
 def post_request(url, data={}):
@@ -61,21 +58,21 @@ class StackOverflowOauth:
             'code': code,
             'redirect_uri': self.redirect_uri,
         }
-        response = post_request(STACK_EXCHANGE_ACCESS_TOKEN_URI, data)
+        response = post_request(constants.STACK_EXCHANGE_ACCESS_TOKEN_URI, data)
         validate_status_code(response)
         user_data = response.text
         return parse_query(user_data)['access_token']
 
     @staticmethod
     def get_account_id_from_access_token(access_token):
-        url = STACK_EXCHANGE_API_USER_ACESS_TOKEN.format(access_token=access_token)
+        url = constants.STACK_EXCHANGE_API_USER_ACESS_TOKEN.format(access_token=access_token)
         response = get_request(url)
         validate_status_code(response)
         user_data = response.json()
         return user_data['items'][0]['account_id']
 
     def get_user_from_account_id(self, account_id):
-        url = STACK_EXCHANGE_API_USER_ASSOCCIATION.format(user_id=account_id)
+        url = constants.STACK_EXCHANGE_API_USER_ASSOCCIATION.format(user_id=account_id)
         response = get_request(url)
         validate_status_code(response)
         user_data = response.json()
@@ -92,6 +89,25 @@ class StackOverflowOauth:
             remapped_data = apply_key_map(remapped_keys, filtered_data)
             remapped_data['domain'] = urlparse(remapped_data['site_url']).netloc
             # name here is domain name
-            remapped_data['name'] = remapped_data['domain'].split('.')[0]
+            # remapped_data['name'] = remapped_data['domain'].split('.')[0]
             user.append(remapped_data)
         return user
+
+    @staticmethod
+    @to_list
+    def get_sites(page=1, pagesize=1000):
+        params = {
+            'page': page,
+            'pagesize': pagesize
+        }
+        response = get_request(constants.STACK_EXCHANGE_API_SITES, params).json()
+        data = response['items']
+        return map(
+            partial(dict_keep_only_keys, keys={
+                'name', 'site_url', 'api_site_parameter'
+            }),
+            data
+        )
+
+    def question_details(self, url):
+        pass
