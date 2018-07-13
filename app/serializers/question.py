@@ -115,4 +115,5 @@ class BountySerializer(serializers.Serializer):
             'expiry_date': instance.expiry_date,
             'title': instance.question.title,
             'source': instance.question.site.api_site_parameter,
+            'state': instance.state,
         }
