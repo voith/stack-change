@@ -26,13 +26,13 @@ class SiteFilter(filterset.FilterSet):
     class Meta:
         model = StackExchangeSite
         fields = {
-            'name': ['exact'],
+            'api_site_parameter': ['exact'],
         }
 
 
 class QuestionFilter(filterset.FilterSet):
     site = filters.RelatedFilter(SiteFilter, name='site', queryset=StackExchangeSite.objects.all())
-    tag = filters.RelatedFilter(TagsFilter, name='tag', queryset=Tag.objects.all())
+    tags = filters.RelatedFilter(TagsFilter, name='tags', queryset=Tag.objects.all())
 
     class Meta:
         model = Question
@@ -55,6 +55,11 @@ class BountySerializer(serializers.Serializer):
     url = serializers.URLField(validators=[required])
     bounty_amount = serializers.DecimalField(validators=[required], max_digits=20, decimal_places=10)
     time_limit = serializers.IntegerField(validators=[required])
+    extra_kwargs = {
+        'url': {'write_only': True},
+        'bounty_amount': {'write_only': True},
+        'amount': {'write_only': True},
+    }
 
     class Meta:
         model = Bounty
@@ -96,7 +101,18 @@ class BountySerializer(serializers.Serializer):
         bounty = Bounty(**{
             'question_id': question_obj.id,
             'amount': validated_data['bounty_amount'],
-            'expiry_date': add_days_to_today(validated_data['time_limit'])
+            'expiry_date': add_days_to_today(validated_data['time_limit']),
+            'state': 'OPEN',
         })
         bounty.save()
         return bounty
+
+    def to_representation(self, instance):
+        return {
+            'bounty_amount': instance.amount,
+            'tags': map(lambda x: x.name, instance.question.tags.all()),
+            'url': instance.question.site_question_url,
+            'expiry_date': instance.expiry_date,
+            'title': instance.question.title,
+            'source': instance.question.site.api_site_parameter,
+        }
