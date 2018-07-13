@@ -1,5 +1,3 @@
-from functools import partial
-
 from toolz import merge
 
 from app.models import User, UserAssociation, StackExchangeSite
