@@ -6,6 +6,7 @@ from django.conf import settings
 from toolz.dicttoolz import dissoc
 
 from stackXchange import constants
+from stackXchange.constants import STACK_EXCHANGE_API_QUESTiON_DETAILS
 from stackXchange.exceptions import BadStatusCode
 from stackXchange.utils.functional import apply_key_map, dict_keep_only_keys, to_list
 
@@ -29,7 +30,7 @@ def validate_status_code(response):
         )
 
 
-class StackOverflowOauth:
+class StackOverflow:
 
     def __init__(self,
                  client_id=settings.STACK_EXCHANGE['CLIENT_ID'],
@@ -106,5 +107,9 @@ class StackOverflowOauth:
             data
         )
 
-    def question_details(self, url):
-        pass
+    def get_question_details(self, id, site):
+        params = {
+            'site': site,
+        }
+        url = STACK_EXCHANGE_API_QUESTiON_DETAILS.format(question_id=id)
+        return get_request(url, params).json()['items'][0]

@@ -3,12 +3,12 @@ from toolz import merge
 from app.models import User, UserAssociation, StackExchangeSite
 from stackXchange.utils.functional import split_dict_by_keys
 from stackXchange.utils.orm import get_or_create
-from stackXchange.utils.stack_overflow_aouth import StackOverflowOauth
+from stackXchange.utils.stack_overflow import StackOverflow
 
 
 def save_user_profile(username):
     # TODO: run this task asyncronously
-    api = StackOverflowOauth()
+    api = StackOverflow()
     user = User.objects.get(username=username)
     account_id = user.account_id
     user_data = api.get_user_from_account_id(account_id)

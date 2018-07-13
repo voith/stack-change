@@ -45,19 +45,19 @@ class Tag(models.Model):
 
 
 class Question(models.Model):
-
-    user_profile = models.ForeignKey(
-        UserAssociation,
-        null=False,
-        verbose_name=_("user_profile"),
-        related_name='user_assocciaiton',
+    bountied_user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        verbose_name=_("user"),
+        related_name='bountied_user',
         on_delete='CASCASE'
     )
     site_question_id = models.IntegerField(unique=True)
     site_question_url = models.CharField(max_length=500)
     site = models.OneToOneField(StackExchangeSite, on_delete='CASCADE')
     tags = models.ManyToManyField(Tag)
-    content = models.TextField()
+    title = models.TextField()
     asked_on = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
