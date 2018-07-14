@@ -29,7 +29,7 @@ class ClaimSerializer(serializers.Serializer):
         try:
             # FIXME: THIS SHOULD NOT FAIl
             # fetch this data from SE
-            user_profile = UserAssociation.objects.get(user_id=claimed_user.id)
+            user_profile = UserAssociation.objects.get(site_user_id=claimed_user.account_id)
         except ObjectDoesNotExist:
             raise serializers.ValidationError(
                 'BUG: userprofile does not exist'
