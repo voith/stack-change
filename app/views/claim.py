@@ -56,7 +56,7 @@ class ClaimSerializer(serializers.Serializer):
         question_user = bounty.question.bountied_user
         claimed_user = self.context['request'].user
         question_user_balance = Balance.objects.get_or_create(user_id=question_user.id)[0]
-        claimed_user_balance = Balance.objets.get_or_create(user_id=claimed_user.id)[0]
+        claimed_user_balance = Balance.objects.get_or_create(user_id=claimed_user.id)[0]
         question_user_balance.amount -= bounty.amount
         claimed_user_balance.amount += bounty.amount
         question_user_balance.save()
