@@ -21,9 +21,9 @@ contract Ownable {
 contract StackXchange is Ownable {
   address owner;
 
-  event emitDeposit(string indexed accountId, uint256 _amt);
-  event emitWithdrawn(string indexed accountId, uint256 _amt);
-  event emitFailWithdraw(string indexed accountId, uint256 _amt);
+  event emitDeposit(string accountId, uint256 _amt);
+  event emitWithdrawn(string accountId, uint256 _amt);
+  event emitFailWithdraw(string accountId, uint256 _amt);
 
   function stackXchange() {
   }
