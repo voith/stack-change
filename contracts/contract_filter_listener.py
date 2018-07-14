@@ -29,23 +29,15 @@ def deposit_balance(account_id, amount):
 def run_forever():
     contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=abi)
     deposit_filter = contract.events.emitDeposit.createFilter(fromBlock=2631584)
-    # withdraw_filter = contract.events.emitWithdrawn.createFilter(fromBlock=2631584)
 
     while True:
         deposit_entries = deposit_filter.get_new_entries()
-        # withdraw_entries = withdraw_filter.get_new_entries()
         if deposit_entries:
             print('got deposit')
             for entry in deposit_entries:
                 account_id = int(entry.args.accountId)
                 amount = entry.args._amt
                 deposit_balance(account_id, amount)
-        # if withdraw_entries:
-        #     print('got withdraw')
-        #     for entry in deposit_entries:
-        #         account_id = int(entry.args.accountId)
-        #         amount = entry.args._amt
-
         time.sleep(10)
 
 if __name__ == '__main__':
