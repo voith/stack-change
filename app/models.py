@@ -65,8 +65,8 @@ class Question(models.Model):
 
 class Balance(models.Model):
 
-    amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
-    user = models.ForeignKey(User, on_delete='CASCADE')
+    amount = models.DecimalField(max_digits=65, decimal_places=30, default=0)
+    user = models.OneToOneField(User, on_delete='CASCADE')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -79,7 +79,7 @@ class Transaction(models.Model):
     )
 
     transaction_id = models.CharField(max_length=50, null=True)
-    amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
+    amount = models.DecimalField(max_digits=65, decimal_places=30, default=0)
     state = models.CharField(max_length=32, choices=STATE_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -111,7 +111,7 @@ class Bounty(models.Model):
 
     question = models.ForeignKey(Question, on_delete='CASCADE')
     claimed_user = models.ForeignKey(UserAssociation, null=True, on_delete='CASCADE')
-    amount = models.DecimalField(max_digits=20, decimal_places=10, default=0)
+    amount = models.DecimalField(max_digits=65, decimal_places=30, default=0)
     state = models.CharField(max_length=32, choices=STATE_CHOICES)
     expiry_date = models.DateTimeField()
     completed_at = models.DateTimeField(null=True)

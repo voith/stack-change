@@ -16,11 +16,13 @@ contract = w3.eth.contract(address=to_hex(CONTRACT_ADDRESS), abi=abi)
 
 
 def deposit(account_id, amount):
-    tx_hash = contract.functions.deposit(4317238).transact({'from': w3.eth.accounts[0], 'value': 2000000})
+    tx_hash = contract.functions.deposit(str(account_id)).transact(
+        {'from': w3.eth.accounts[0], 'value': w3.toWei(amount, 'ether')}
+    )
     return w3.eth.waitForTransactionReceipt(tx_hash)
 
 
 def withdraw(account_id, amount):
     return contract.functions.withDraw(
-        w3.eth.accounts[1], '4317238', 1000000
+        w3.eth.accounts[1], str(account_id), w3.toWei(amount, 'ether')
     ).transact({'from': w3.eth.accounts[0]})
