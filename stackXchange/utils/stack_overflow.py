@@ -113,3 +113,10 @@ class StackOverflow:
         }
         url = STACK_EXCHANGE_API_QUESTiON_DETAILS.format(question_id=id)
         return get_request(url, params).json()['items'][0]
+
+    def get_question_answers(self, id, site):
+        params = {
+            'site': site,
+        }
+        url = constants.STACK_EXCHANGE_API_QUESTiON_ANSWERS.format(question_id=id)
+        return get_request(url, params).json()['items']
