@@ -26,16 +26,10 @@ class ClaimSerializer(serializers.Serializer):
         answers = StackOverflow().get_question_answers(
             question.site_question_id, site.api_site_parameter
         )
-        try:
-            # FIXME: THIS SHOULD NOT FAIl
-            # fetch this data from SE
-            user_profile = UserAssociation.objects.get(site_user_id=claimed_user.account_id)
-        except ObjectDoesNotExist:
-            raise serializers.ValidationError(
-                'BUG: userprofile does not exist'
-            )
+        user_profile = UserAssociation.objects.filter(user_id=claimed_user.id)
+        siter_user_ids = list(map(lambda x: x.site_user_id, user_profile))
         for answer in answers:
-            if answer['owner']['user_type'] != user_profile.site_user_id:
+            if answer['owner']['user_type'] in siter_user_ids:
                 continue
             if answer['is_accepted'] is not True:
                 raise serializers.ValidationError(
