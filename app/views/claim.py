@@ -63,6 +63,8 @@ class ClaimSerializer(serializers.Serializer):
         claimed_user_balance.amount += bounty.amount
         question_user_balance.save()
         claimed_user_balance.save()
+        bounty.state = 'COMPLETED'
+        bounty.save()
         return question_user
 
 
