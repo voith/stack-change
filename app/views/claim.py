@@ -9,7 +9,7 @@ from stackXchange.utils.serializer import required
 from stackXchange.utils.stack_overflow import StackOverflow
 
 
-class ClaimSerilizer(serializers.Serializer):
+class ClaimSerializer(serializers.Serializer):
     bounty_id = serializers.IntegerField(validators=[required])
 
     def validate_bounty_id(self, value):
@@ -66,7 +66,7 @@ class ClaimSerilizer(serializers.Serializer):
         return question_user
 
 
-class BountyView(generics.CreateAPIView):
+class ClaimView(generics.CreateAPIView):
 
-    serializer_class = ClaimSerilizer
+    serializer_class = ClaimSerializer
     permission_classes = (IsAuthenticated,)
