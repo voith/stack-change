@@ -11,7 +11,6 @@ def deploy():
     contract_path = os.path.join(os.getcwd(), 'contracts/StackXchange.sol')
     with open(contract_path) as f:
         contract_code = f.read()
-
     w3 = Web3(Web3.IPCProvider(IPC_PATH))
     w3.middleware_stack.inject(geth_poa_middleware, layer=0)
     w3.personal.unlockAccount(w3.eth.accounts[0], 'voith123')
