@@ -19,7 +19,11 @@ class ClaimSerializer(serializers.Serializer):
             self.context['bounty'] = bounty
         except ObjectDoesNotExist:
             raise serializers.ValidationError(
-                'Failed'
+                'no bounty found'
+            )
+        if bounty.state != 'OPEN':
+            raise serializers.ValidationError(
+                'bounty not open'
             )
         question = bounty.question
         site = question.site
@@ -49,7 +53,7 @@ class ClaimSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         bounty = self.context['bounty']
-        question_user = bounty.question.user
+        question_user = bounty.question.bountied_user
         claimed_user = self.context['request'].user
         question_user_balance = Balance(user_id=question_user.id)
         claimed_user_balance = Balance(user_id=claimed_user.id)
